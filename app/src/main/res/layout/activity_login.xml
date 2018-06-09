@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:background="@drawable/gradient"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="caompany.com.licenta.MainActivity">
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/acs_logo"
+            android:background="@drawable/gradient"/>
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bine ati venit"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textSize="45sp"/>
+
+    <TextView
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="To access all features of the app provided by Code Is All, You need to login first."
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="35dp"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:background="@drawable/rounded_edit_text"
+        android:hint="Utilizator"
+        android:drawableLeft="@drawable/ic_action_username"
+        android:layout_margin="10dp"
+        android:inputType="text"
+        android:textColor="#000000"
+        android:textColorHint="#FFFFFF"
+       />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:background="@drawable/rounded_edit_text"
+        android:drawableLeft="@drawable/ic_action_password"
+        android:hint="Parola"
+        android:textColor="#FFFFFF"
+        android:layout_margin="10dp"
+        android:inputType="textPassword"
+        android:textColorHint="#FFFFFF"
+        />
+    <RadioGroup
+        android:id="@+id/radio_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="Profesor"
+            android:layout_marginLeft = "80dp"
+            />
+
+        <RadioButton
+            android:id="@+id/radio_profesor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="Student"
+            android:layout_marginLeft = "40dp"
+            />
+        <RadioButton
+            android:id="@+id/radio_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            />
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:text="Login"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/rounded_button"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:text="Forgot Password"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:text=" | "/>
+
+        <TextView
+            android:id="@+id/register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:text="Register"/>
+
+    </LinearLayout>
+
+</LinearLayout>
