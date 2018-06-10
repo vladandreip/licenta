@@ -8,6 +8,7 @@ import android.nfc.NfcEvent;
 import android.os.Build;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +30,9 @@ public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdef
     private EditText txtBoxAddMessage;
     private TextView txtReceivedMessages;
     private TextView txtMessagesToSend;
+    private TextInputLayout firstNameWrapper;
+    private TextInputLayout secondNameWrapper;
+    private TextInputLayout groupWrapper;
 
     public void addMessage(View view) {
         String newMessage = txtBoxAddMessage.getText().toString();
@@ -99,6 +103,12 @@ public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdef
         txtBoxAddMessage = (EditText) findViewById(R.id.txtBoxAddMessage);
         txtMessagesToSend = (TextView) findViewById(R.id.txtMessageToSend);
         txtReceivedMessages = (TextView) findViewById(R.id.txtMessagesReceived);
+        firstNameWrapper = findViewById(R.id.first_name_wrapper);
+        secondNameWrapper = findViewById(R.id.second_name_wrapper);
+        groupWrapper = findViewById(R.id.group_wrapper);
+        firstNameWrapper.setHint("Nume");
+        secondNameWrapper.setHint("Prenume");
+        groupWrapper.setHint("Grupa");
         Button btnAddMessage = (Button) findViewById(R.id.buttonAddMessage);
 
         btnAddMessage.setText("Add Message");
