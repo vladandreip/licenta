@@ -12,13 +12,17 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+
+import caompany.com.licenta.swipe.SwipeDismissListViewTouchListener;
 
 public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNdefPushCompleteCallback,
         NfcAdapter.CreateNdefMessageCallback{
@@ -26,28 +30,19 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
     private ArrayList<String> messagesReceivedArray = new ArrayList<>();
 
     //Text boxes to add and display our messages
-
+    private ArrayList<String> languagesarraylist;
+    ArrayAdapter<String> language_adapter;
     private TextInputLayout courseNameWrapper;
     private TextView txtReceivedMessages;
+    private ListView listViewCourse;
 
-    public void addMessage(View view) {
+    public void addCourse(View view) {
         //String newMessage = txtBoxAddMessage.getText().toString();
         String courseName = courseNameWrapper.getEditText().getText().toString();
         if(!verifyCredentials(courseName)){
             courseNameWrapper.setError("Nume invalid!");
         }
-       /*
-        if(verificare) {
-            messagesToSendArray.add(firstName);
-            messagesToSendArray.add(secondName);
-            messagesToSendArray.add(group);
-            //messagesToSendArray.add(newMessage);
 
-            //txtBoxAddMessage.setText(null);
-            updateTextViews();
-
-            Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
-        }*/
     }
 
 
@@ -83,6 +78,30 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class);
+
+        init();
+        listViewCourse.setAdapter(language_adapter);
+        SwipeDismissListViewTouchListener touchListener =
+                new SwipeDismissListViewTouchListener(
+                        listViewCourse,
+                        new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+
+                                    languagesarraylist.remove(position);
+                                    language_adapter.notifyDataSetChanged();
+
+                                }
+
+                            }
+                        });
+        listViewCourse.setOnTouchListener(touchListener);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if(mNfcAdapter != null) {
             //Handle some NFC initialization here
@@ -97,6 +116,7 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
                     Toast.LENGTH_SHORT).show();
         }
         courseNameWrapper = findViewById(R.id.course_name_wrapper);
+
         courseNameWrapper.setHint("Numele cursului");
         Button btnAddMessage = findViewById(R.id.btn_new_course);
         txtReceivedMessages = findViewById(R.id.textView);
@@ -198,5 +218,24 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
     @Override
     public void onNdefPushComplete(NfcEvent event) {
         //return null;
+    }
+    public void init(){
+        listViewCourse = findViewById(R.id.lv_courses);
+        languagesarraylist = new ArrayList<>();
+
+        //adding few data to arraylist
+        languagesarraylist.add("SQL");
+        languagesarraylist.add("JAVA");
+        languagesarraylist.add("JAVA SCRIPT ");
+        languagesarraylist.add("C#");
+        languagesarraylist.add("PYTHON");
+        languagesarraylist.add("C++");
+        languagesarraylist.add("IOS");
+        languagesarraylist.add("ANDROID");
+        languagesarraylist.add("PHP");
+        languagesarraylist.add("LARAVEL");
+
+
+        language_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,languagesarraylist);
     }
 }
