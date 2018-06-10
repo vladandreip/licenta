@@ -20,7 +20,8 @@ import android.widget.Toast;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public class ClassActivity extends AppCompatActivity {
+public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNdefPushCompleteCallback,
+        NfcAdapter.CreateNdefMessageCallback{
     //The array lists to hold our messages
     private ArrayList<String> messagesReceivedArray = new ArrayList<>();
 
@@ -83,6 +84,18 @@ public class ClassActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if(mNfcAdapter != null) {
+            //Handle some NFC initialization here
+            //This will refer back to createNdefMessage for what it will send
+            mNfcAdapter.setNdefPushMessageCallback(this, this);
+
+            //This will be called if the message is sent successfully
+            mNfcAdapter.setOnNdefPushCompleteCallback(this, this);
+        }
+        else {
+            Toast.makeText(this, "NFC not available on this device",
+                    Toast.LENGTH_SHORT).show();
+        }
         courseNameWrapper = findViewById(R.id.course_name_wrapper);
         courseNameWrapper.setHint("Numele cursului");
         Button btnAddMessage = findViewById(R.id.btn_new_course);
@@ -102,6 +115,7 @@ public class ClassActivity extends AppCompatActivity {
         //When creating an NdefMessage we need to provide an NdefRecord[]
         return new NdefMessage(recordsToAttach);
     }*/
+
 
 
     /*
@@ -176,4 +190,13 @@ public class ClassActivity extends AppCompatActivity {
         return credential.length() > 0;
     }
 
+    @Override
+    public NdefMessage createNdefMessage(NfcEvent event) {
+        return null;
+    }
+
+    @Override
+    public void onNdefPushComplete(NfcEvent event) {
+        //return null;
+    }
 }
