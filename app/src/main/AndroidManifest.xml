@@ -29,6 +29,16 @@
         <activity
             android:name=".NfcActivity"
             android:theme="@style/NoToolbar">
+
+
+        </activity>
+        <activity
+
+            android:name=".RegistrationActivity"
+            android:theme="@style/NoToolbar">
+
+        </activity>
+        <activity android:name=".ClassActivity">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
@@ -37,12 +47,6 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RegistrationActivity"
-            android:theme="@style/NoToolbar">
-
-        </activity>
-
     </application>
 
 </manifest>

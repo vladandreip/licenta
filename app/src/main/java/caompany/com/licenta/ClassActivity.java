@@ -19,38 +19,23 @@ import android.widget.Toast;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdefPushCompleteCallback,
-        NfcAdapter.CreateNdefMessageCallback{
+
+public class ClassActivity extends AppCompatActivity {
     //The array lists to hold our messages
-    private ArrayList<String> messagesToSendArray = new ArrayList<>();
     private ArrayList<String> messagesReceivedArray = new ArrayList<>();
 
     //Text boxes to add and display our messages
-    private EditText txtBoxAddMessage;
+
+    private TextInputLayout courseNameWrapper;
     private TextView txtReceivedMessages;
-    private TextView txtMessagesToSend;
-    private TextInputLayout firstNameWrapper;
-    private TextInputLayout secondNameWrapper;
-    private TextInputLayout groupWrapper;
 
     public void addMessage(View view) {
         //String newMessage = txtBoxAddMessage.getText().toString();
-        Boolean verificare = true;
-        String firstName = firstNameWrapper.getEditText().getText().toString();
-        String secondName = secondNameWrapper.getEditText().getText().toString();
-        String group = groupWrapper.getEditText().getText().toString();
-        if(!verifyCredentials(firstName)){
-            firstNameWrapper.setError("Nume invalid!");
-            verificare = false;
+        String courseName = courseNameWrapper.getEditText().getText().toString();
+        if(!verifyCredentials(courseName)){
+            courseNameWrapper.setError("Nume invalid!");
         }
-        if(!verifyCredentials(secondName)){
-            secondNameWrapper.setError("Prenume invalid!");
-            verificare = false;
-        }
-        if(!verifyCredentials(group)){
-            groupWrapper.setError("Grupa invalida!");
-            verificare = false;
-        }
+       /*
         if(verificare) {
             messagesToSendArray.add(firstName);
             messagesToSendArray.add(secondName);
@@ -61,19 +46,11 @@ public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdef
             updateTextViews();
 
             Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 
 
     private  void updateTextViews() {
-        txtMessagesToSend.setText("Messages To Send:\n");
-        //Populate Our list of messages we want to send
-        if(messagesToSendArray.size() > 0) {
-            for (int i = 0; i < messagesToSendArray.size(); i++) {
-                txtMessagesToSend.append(messagesToSendArray.get(i));
-                txtMessagesToSend.append("\n");
-            }
-        }
 
         txtReceivedMessages.setText("Messages Received:\n");
         //Populate our list of messages we have received
@@ -89,7 +66,6 @@ public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdef
     @Override
     public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putStringArrayList("messagesToSend", messagesToSendArray);
         savedInstanceState.putStringArrayList("lastMessagesReceived",messagesReceivedArray);
     }
 
@@ -97,47 +73,24 @@ public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdef
     @Override
     public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        messagesToSendArray = savedInstanceState.getStringArrayList("messagesToSend");
         messagesReceivedArray = savedInstanceState.getStringArrayList("lastMessagesReceived");
     }
+
     private NfcAdapter mNfcAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nfc);
+        setContentView(R.layout.activity_class);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if(mNfcAdapter != null) {
-            //Handle some NFC initialization here
-            //This will refer back to createNdefMessage for what it will send
-            mNfcAdapter.setNdefPushMessageCallback(this, this);
-
-            //This will be called if the message is sent successfully
-            mNfcAdapter.setOnNdefPushCompleteCallback(this, this);
-        }
-        else {
-            Toast.makeText(this, "NFC not available on this device",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-        txtBoxAddMessage = (EditText) findViewById(R.id.txtBoxAddMessage);
-        txtMessagesToSend = (TextView) findViewById(R.id.txtMessageToSend);
-        txtReceivedMessages = (TextView) findViewById(R.id.txtMessagesReceived);
-
-        firstNameWrapper = findViewById(R.id.first_name_wrapper);
-        secondNameWrapper = findViewById(R.id.second_name_wrapper);
-        groupWrapper = findViewById(R.id.group_wrapper);
-
-        firstNameWrapper.setHint("Nume");
-        secondNameWrapper.setHint("Prenume");
-        groupWrapper.setHint("Grupa");
-
-        Button btnAddMessage = (Button) findViewById(R.id.buttonAddMessage);
-
+        courseNameWrapper = findViewById(R.id.course_name_wrapper);
+        courseNameWrapper.setHint("Numele cursului");
+        Button btnAddMessage = findViewById(R.id.btn_new_course);
+        txtReceivedMessages = findViewById(R.id.textView);
         btnAddMessage.setText("Add Message");
         updateTextViews();
     }
-
+    /*
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
         //This will be called when another NFC capable device is detected.
@@ -148,14 +101,10 @@ public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdef
         NdefRecord[] recordsToAttach = createRecords();
         //When creating an NdefMessage we need to provide an NdefRecord[]
         return new NdefMessage(recordsToAttach);
-    }
+    }*/
 
-    @Override
-    public void onNdefPushComplete(NfcEvent event) {
-        //This is called when the system detects that our NdefMessage was
-        //Successfully sent.
-        messagesToSendArray.clear();
-    }
+
+    /*
     public NdefRecord[] createRecords() {
         NdefRecord[] records = new NdefRecord[messagesToSendArray.size() + 1];
         //To Create Messages Manually if API is less than
@@ -185,7 +134,7 @@ public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdef
         records[messagesToSendArray.size()] =
                 NdefRecord.createApplicationRecord(getPackageName());
         return records;
-    }
+    }*/
     private void handleNfcIntent(Intent NfcIntent) {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(NfcIntent.getAction())) {
             Parcelable[] receivedArray =

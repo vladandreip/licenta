@@ -24,14 +24,14 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, NfcActivity.class);
+                Intent intent = new Intent(LoginActivity.this, ClassActivity.class);
                 startActivity(intent);
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                Intent intent = new Intent(LoginActivity.this, NfcActivity.class);
                 startActivity(intent);
             }
         });
