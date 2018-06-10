@@ -49,12 +49,16 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = usernameInput.getEditText().getText().toString();
                 String password = passwordInput.getEditText().getText().toString();
+                Boolean verificare = true;
                 if(!verificareEmail(username)){
                     usernameInput.setError("Adresa de e-mail invalida!");
+                    verificare = false;
                 }
                 if(!verificareParola(password)){
                     passwordInput.setError("Parola invalida!");
-                }else{
+                    verificare = false;
+                }
+                if(verificare){
                     usernameInput.setErrorEnabled(false);
                     passwordInput.setErrorEnabled(false);
                     Intent intent = new Intent(RegistrationActivity.this, NfcActivity.class);

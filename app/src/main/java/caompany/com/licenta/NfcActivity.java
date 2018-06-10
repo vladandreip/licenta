@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdefPushCompleteCallback,
         NfcAdapter.CreateNdefMessageCallback{
@@ -35,13 +37,34 @@ public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdef
     private TextInputLayout groupWrapper;
 
     public void addMessage(View view) {
-        String newMessage = txtBoxAddMessage.getText().toString();
-        messagesToSendArray.add(newMessage);
+        //String newMessage = txtBoxAddMessage.getText().toString();
+        Boolean verificare = true;
+        String firstName = firstNameWrapper.getEditText().getText().toString();
+        String secondName = secondNameWrapper.getEditText().getText().toString();
+        String group = groupWrapper.getEditText().getText().toString();
+        if(!verifyCredentials(firstName)){
+            firstNameWrapper.setError("Nume invalid!");
+            verificare = false;
+        }
+        if(!verifyCredentials(secondName)){
+            secondNameWrapper.setError("Prenume invalid!");
+            verificare = false;
+        }
+        if(!verifyCredentials(group)){
+            groupWrapper.setError("Grupa invalida!");
+            verificare = false;
+        }
+        if(verificare) {
+            messagesToSendArray.add(firstName);
+            messagesToSendArray.add(secondName);
+            messagesToSendArray.add(group);
+            //messagesToSendArray.add(newMessage);
 
-        txtBoxAddMessage.setText(null);
-        updateTextViews();
+            //txtBoxAddMessage.setText(null);
+            updateTextViews();
 
-        Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
+        }
     }
 
 
@@ -103,12 +126,15 @@ public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdef
         txtBoxAddMessage = (EditText) findViewById(R.id.txtBoxAddMessage);
         txtMessagesToSend = (TextView) findViewById(R.id.txtMessageToSend);
         txtReceivedMessages = (TextView) findViewById(R.id.txtMessagesReceived);
+
         firstNameWrapper = findViewById(R.id.first_name_wrapper);
         secondNameWrapper = findViewById(R.id.second_name_wrapper);
         groupWrapper = findViewById(R.id.group_wrapper);
+
         firstNameWrapper.setHint("Nume");
         secondNameWrapper.setHint("Prenume");
         groupWrapper.setHint("Grupa");
+
         Button btnAddMessage = (Button) findViewById(R.id.buttonAddMessage);
 
         btnAddMessage.setText("Add Message");
@@ -200,4 +226,8 @@ public class NfcActivity extends AppCompatActivity  implements NfcAdapter.OnNdef
         updateTextViews();
         handleNfcIntent(getIntent());
     }
+    public boolean verifyCredentials(String credential){
+        return credential.length() > 0;
+    }
+
 }
