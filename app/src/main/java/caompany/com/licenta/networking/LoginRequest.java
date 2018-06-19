@@ -24,9 +24,9 @@ public class LoginRequest {
                     if(response.code() == 200){
                         if(!call.isCanceled()){
                             onSuccess(response);
-                        }else {
-                            onFail(response.message());
                         }
+                    }else{
+                        onFail(response.message());
                     }
                 }
 

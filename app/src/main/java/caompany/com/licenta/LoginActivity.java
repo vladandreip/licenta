@@ -1,14 +1,20 @@
 package caompany.com.licenta;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonElement;
 
@@ -16,17 +22,23 @@ import caompany.com.licenta.networking.LoginRequest;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    TextInputLayout passWrapper;
-    TextInputLayout emailWrapper;
+    //TextInputLayout passWrapper;
+    //TextInputLayout emailWrapper;
+    EditText passEdit;
+    EditText mailEdit;
+    Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Button loginButton = findViewById(R.id.loginButton);
-        passWrapper = findViewById(R.id.passWrapper);
-        emailWrapper = findViewById(R.id.emailWrapper);
-        passWrapper.setHint("Email");
-        emailWrapper.setHint("Parola");
+        mContext = this;
+        //passWrapper = findViewById(R.id.passWrapper);
+        //emailWrapper = findViewById(R.id.emailWrapper);
+        //passWrapper.setHint("Email");
+        //emailWrapper.setHint("Parola");
+        passEdit = findViewById(R.id.email);
+        mailEdit = findViewById(R.id.pass);
 
         //RadioButton profesorButton = findViewById(R.id.radio_profesor);
         //RadioButton studentButton = findViewById(R.id.radio_student);
@@ -36,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailWrapper.getEditText().getText().toString();
-                String pass = passWrapper.getEditText().getText().toString();
+                String email = mailEdit.getText().toString();
+                String pass =  passEdit.getText().toString();
                 LoginRequest loginRequest = new LoginRequest(){
                     @Override
                     public void onSuccess(Response<JsonElement> response) {
@@ -51,7 +63,18 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFail(String err) {
-                        passWrapper.setError("Datele introduse sunt incorecte");
+                        Log.d("ATTEMPT", "onFail: ");
+                        AlertDialog.Builder builder =  new AlertDialog.Builder(mContext);
+                        builder.setTitle("Atentie");
+                        builder.setMessage("Datele introduse sunt incorecte");
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.create();
+                        builder.show();
                     }
                 };
                 loginRequest.tryRequest(email,pass);
