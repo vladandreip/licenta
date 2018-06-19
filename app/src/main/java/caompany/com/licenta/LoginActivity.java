@@ -37,8 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         //emailWrapper = findViewById(R.id.emailWrapper);
         //passWrapper.setHint("Email");
         //emailWrapper.setHint("Parola");
-        passEdit = findViewById(R.id.email);
-        mailEdit = findViewById(R.id.pass);
+        passEdit = findViewById(R.id.pass);
+        mailEdit = findViewById(R.id.email);
 
         //RadioButton profesorButton = findViewById(R.id.radio_profesor);
         //RadioButton studentButton = findViewById(R.id.radio_student);
@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = mailEdit.getText().toString();
                 String pass =  passEdit.getText().toString();
+                Log.d("REQQQ", "onClick: " + email + pass);
                 LoginRequest loginRequest = new LoginRequest(){
                     @Override
                     public void onSuccess(Response<JsonElement> response) {
@@ -60,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("header", header);
                         startActivity(intent);
                     }
-                    /*
+
                     @Override
                     public void onFail(String err) {
                         Log.d("ATTEMPT", "onFail: ");
@@ -76,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                         builder.create();
                         builder.show();
                     }
-                    */
+
                 };
                 loginRequest.tryRequest(email,pass);
 
