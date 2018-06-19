@@ -61,7 +61,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(verificare){
                     usernameInput.setErrorEnabled(false);
                     passwordInput.setErrorEnabled(false);
-                    Intent intent = new Intent(RegistrationActivity.this, NfcActivity.class);
+
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("https://whispering-dusk-58602.herokuapp.com")
                             .addConverterFactory(GsonConverterFactory.create())
@@ -72,9 +72,11 @@ public class RegistrationActivity extends AppCompatActivity {
                     call.enqueue(new Callback<JsonElement>() {
                         @Override
                         public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                            Intent intent = new Intent(RegistrationActivity.this, ClassActivity.class);
                             okhttp3.Headers headerList = response.headers();
                             //Log.d("Raspuns", "onResponse: " );
                             Toast.makeText(mContext, "Token is:" + headerList.get("x-auth"), Toast.LENGTH_LONG).show();
+                            startActivity(intent);
                         }
 
                         @Override
@@ -83,7 +85,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         }
                     });
 
-                    startActivity(intent);
+
 
                 }
             }

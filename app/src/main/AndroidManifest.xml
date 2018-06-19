@@ -38,7 +38,8 @@
             android:theme="@style/NoToolbar">
 
         </activity>
-        <activity android:name=".ClassActivity">
+        <activity android:name=".ClassActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 

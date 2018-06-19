@@ -11,4 +11,8 @@ import retrofit2.http.Query;
 public interface ServerInterface {
     @POST(Requests.registrate)
     Call<JsonElement> registrate(@Body User user);
+
+    @POST(Requests.login)
+    Call<JsonElement> login(@Body User user);
+
 }

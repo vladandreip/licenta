@@ -1,5 +1,6 @@
 package caompany.com.licenta;
 
+import android.content.Context;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -11,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,6 +37,7 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
     private TextInputLayout courseNameWrapper;
     private TextView txtReceivedMessages;
     private ListView listViewCourse;
+    Context mContext;
 
     public void addCourse(View view) {
         //String newMessage = txtBoxAddMessage.getText().toString();
@@ -78,7 +81,10 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class);
-
+        mContext = this;
+        if(getIntent().getExtras() != null){
+            Log.d("TOKEN", "onCreate: " + getIntent().getExtras().getString("x-auth"));
+        }
         init();
         listViewCourse.setAdapter(language_adapter);
         SwipeDismissListViewTouchListener touchListener =
@@ -93,7 +99,7 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
                             @Override
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-
+                                    Toast.makeText(mContext,"Bum",Toast.LENGTH_LONG).show();
                                     languagesarraylist.remove(position);
                                     language_adapter.notifyDataSetChanged();
 
