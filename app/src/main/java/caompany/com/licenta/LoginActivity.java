@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("header", header);
                         startActivity(intent);
                     }
-
+                    /*
                     @Override
                     public void onFail(String err) {
                         Log.d("ATTEMPT", "onFail: ");
@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                         builder.create();
                         builder.show();
                     }
+                    */
                 };
                 loginRequest.tryRequest(email,pass);
 
