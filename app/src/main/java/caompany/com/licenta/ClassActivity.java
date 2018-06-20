@@ -21,14 +21,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
+import caompany.com.licenta.cursuri.Curs;
+import caompany.com.licenta.networking.ClassRequest;
+import caompany.com.licenta.networking.GetClassRequest;
 import caompany.com.licenta.swipe.SwipeDismissListViewTouchListener;
+import retrofit2.Response;
 
 public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNdefPushCompleteCallback,
         NfcAdapter.CreateNdefMessageCallback{
     //The array lists to hold our messages
+    String header;
     private ArrayList<String> messagesReceivedArray = new ArrayList<>();
 
     //Text boxes to add and display our messages
@@ -84,9 +92,10 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
         mContext = this;
         if(getIntent().getExtras() != null){
             Log.d("TOKEN", "onCreate: " + getIntent().getExtras().getString("x-auth"));
+            header = getIntent().getExtras().getString("header");
         }
         init();
-        listViewCourse.setAdapter(language_adapter);
+        //listViewCourse.setAdapter(language_adapter);
         SwipeDismissListViewTouchListener touchListener =
                 new SwipeDismissListViewTouchListener(
                         listViewCourse,
@@ -228,20 +237,42 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
     public void init(){
         listViewCourse = findViewById(R.id.lv_courses);
         languagesarraylist = new ArrayList<>();
+        GetClassRequest getClassRequest = new GetClassRequest(){
+            @Override
+            public void onSuccess(Response<JsonElement> response) {
+                Log.d("ceva", "onSuccess: ");
+                Gson gson = new Gson();
+                try {
+                    Curs curs = gson.fromJson(response.body(), Curs.class);
+                    int size = curs.getCurses().size();
+                    for(int i=0; i<size; i++){
+                        Log.d("MATERIE", "onSuccess: " + curs.getCurses().get(i).getText());
+                        languagesarraylist.add(curs.getCurses().get(i).getText());
+                    }
+                    language_adapter = new ArrayAdapter<String>(mContext,android.R.layout.simple_list_item_activated_1,languagesarraylist);
+                    listViewCourse.setAdapter(language_adapter);
+                    //language_adapter.notifyDataSetChanged();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        Log.d("header", "init: " + header);
+        getClassRequest.tryRequest(header);
 
         //adding few data to arraylist
-        languagesarraylist.add("SQL");
-        languagesarraylist.add("JAVA");
-        languagesarraylist.add("JAVA SCRIPT ");
-        languagesarraylist.add("C#");
-        languagesarraylist.add("PYTHON");
-        languagesarraylist.add("C++");
-        languagesarraylist.add("IOS");
-        languagesarraylist.add("ANDROID");
-        languagesarraylist.add("PHP");
-        languagesarraylist.add("LARAVEL");
+        //languagesarraylist.add("SQL");
+        //languagesarraylist.add("JAVA");
+        //languagesarraylist.add("JAVA SCRIPT ");
+        //languagesarraylist.add("C#");
+        //languagesarraylist.add("PYTHON");
+        //languagesarraylist.add("C++");
+        //languagesarraylist.add("IOS");
+        //languagesarraylist.add("ANDROID");
+        //languagesarraylist.add("PHP");
+        //languagesarraylist.add("LARAVEL");
 
 
-        language_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,languagesarraylist);
+        //language_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,languagesarraylist);
     }
 }

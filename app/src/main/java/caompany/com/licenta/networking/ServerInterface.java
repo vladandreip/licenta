@@ -21,4 +21,7 @@ public interface ServerInterface {
     Call<JsonElement> cursuri(@Header("x-auth") String token,
                               @Body String curs);
 
+    @GET(Requests.cursuri)
+    Call<JsonElement> getCursuri(@Header("x-auth") String token);
+
 }
