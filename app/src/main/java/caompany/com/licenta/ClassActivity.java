@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import caompany.com.licenta.cursuri.Curs;
 import caompany.com.licenta.networking.ClassRequest;
+import caompany.com.licenta.networking.DeleteClassRequest;
 import caompany.com.licenta.networking.GetClassRequest;
 import caompany.com.licenta.swipe.SwipeDismissListViewTouchListener;
 import retrofit2.Response;
@@ -36,6 +37,7 @@ import retrofit2.Response;
 public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNdefPushCompleteCallback,
         NfcAdapter.CreateNdefMessageCallback{
     //The array lists to hold our messages
+    Curs curs;
     String header;
     private ArrayList<String> messagesReceivedArray = new ArrayList<>();
 
@@ -109,6 +111,12 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
                                     Toast.makeText(mContext,"Bum",Toast.LENGTH_LONG).show();
+
+                                    //delete request for course
+                                    DeleteClassRequest deleteClassRequest = new DeleteClassRequest();
+                                    deleteClassRequest.tryRequest(header, curs.getCurses().get(position).get_id());
+
+
                                     languagesarraylist.remove(position);
                                     language_adapter.notifyDataSetChanged();
 
@@ -243,7 +251,7 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
                 Log.d("ceva", "onSuccess: ");
                 Gson gson = new Gson();
                 try {
-                    Curs curs = gson.fromJson(response.body(), Curs.class);
+                    curs = gson.fromJson(response.body(), Curs.class);
                     int size = curs.getCurses().size();
                     for(int i=0; i<size; i++){
                         Log.d("MATERIE", "onSuccess: " + curs.getCurses().get(i).getText());
@@ -257,7 +265,6 @@ public class ClassActivity extends AppCompatActivity implements NfcAdapter.OnNde
                 }
             }
         };
-        Log.d("header", "init: " + header);
         getClassRequest.tryRequest(header);
 
         //adding few data to arraylist
